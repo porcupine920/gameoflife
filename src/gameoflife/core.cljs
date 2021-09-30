@@ -9,7 +9,11 @@
 
 (def glider-gun #{[0 24] [1 22] [1 24] [2 12] [2 13] [2 20] [2 21] [2 34] [2 35] [3 11] [3 15] [3 20] [3 21] [3 34] [3 35] [4 0] [4 1] [4 10] [4 16] [4 20] [4 21] [5 0] [5 1] [5 10] [5 14] [5 16] [5 17] [5 22] [5 24] [6 10] [6 16] [6 24] [7 11] [7 15] [8 12] [8 13]})
 
-(def cells (reagent/atom glider-gun))
+(def glider-duplicator #{[0 7] [0 12] [0 13] [0 37] [0 38] [1 8] [1 13] [1 37] [1 38] [2 6] [2 7] [2 8] [2 13] [2 15] [2 23] [2 34] [2 35] [2 42] [2 46] [2 47] [3 14] [3 15] [3 23] [3 25] [3 33] [3 34] [3 35] [3 41] [3 45] [3 47] [4 26] [4 27] [4 34] [4 35] [4 42] [4 43] [4 44] [4 45] [4 46] [5 26] [5 27] [5 37] [5 38] [5 43] [5 44] [5 45] [6 26] [6 27] [6 37] [6 38] [7 23] [7 25] [8 23] [11 24] [11 25] [12 24] [12 25] [16 25] [16 26] [16 27] [17 27] [18 26] [21 9] [21 11] [22 7] [22 11] [22 17] [22 18] [22 19] [23 0] [23 1] [23 7] [23 15] [23 17] [23 20] [23 23] [23 24] [24 0] [24 1] [24 6] [24 11] [24 19] [24 20] [24 23] [24 26] [25 7] [25 27] [26 7] [26 11] [26 14] [26 15] [26 16] [26 27] [27 9] [27 11] [27 27] [28 23] [28 26] [28 32] [28 33] [29 23] [29 24] [29 32] [29 34] [30 34] [31 34] [31 35] })
+
+(def initial glider-gun)
+
+(def cells (reagent/atom initial))
 
 ;; define your app data so that it doesn't get over-written on reload
 
@@ -43,7 +47,7 @@
 
 (def yoffset 0)
 
-(set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second glider-gun))) 2))
+(set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second initial))) 2))
 
 (defn transform [loc]
   (* loc scale))
@@ -83,11 +87,11 @@
 
 (js/setInterval (fn []
                   (swap! cells #(step %))
-                  (reagent.dom/render [home] (.getElementById js/document "app"))) 500)
+                  (reagent.dom/render [home] (.getElementById js/document "app"))) 300)
 
 (defn on-window-resize [ evt ]
   (reset! window-width (.-innerWidth js/window))
-  (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second glider-gun))) 2)))
+  (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second initial))) 2)))
 
 (defn ^:export main []
   (rdom/render [home]
