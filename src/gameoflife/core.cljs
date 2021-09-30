@@ -43,6 +43,8 @@
 
 (def yoffset 0)
 
+(set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second @cells))) 2))
+
 (defn transform [loc]
   (* loc scale))
 
@@ -50,7 +52,7 @@
   (doseq [[x y] @cells]
     (draw-cell ctx (transform (+ x xoffset)) (transform (+ y yoffset)))))
 
-(defn draw-canvas-contents [ canvas ]
+(defn draw-canvas-contents [canvas]
   (let [ctx (.getContext canvas "2d")
         w (.-clientWidth canvas)
         h (.-clientHeight canvas)]
@@ -78,7 +80,6 @@
                      :height (.-clientHeight node)})]])})))
 
 (defn home []
-  (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second @cells))) 2))
   [div-with-canvas])
 
 (js/setInterval (fn []
