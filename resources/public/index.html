@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
+    <link rel="icon" href="https://clojurescript.org/images/cljs-logo-icon-32.png">
+    <style>
+     html, body {
+         margin:0;
+         padding:0;
+         height:100%;
+     }
+
+     div#app {
+         height: 100%;
+     }
+
+     div.with-canvas {
+         margin: 0px;
+         padding: 0px;
+         border: 0px;
+
+         height: 100%;
+     }
+
+     div.with-canvas canvas {
+         display: block;
+/*         opacity: 0.5; */
+     }
+    </style>
+  </head>
+  <body>
+      <div id="app">
+          <canvas id="canvas" width="1680" height="1000"></canvas>
+      </div>
+      <script src="js/compiled/gameoflife.js" type="text/javascript"></script>
+      <script>gameoflife.core.main()</script>
+  </body>
+</html>
