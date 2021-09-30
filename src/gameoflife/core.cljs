@@ -43,22 +43,21 @@
 
 (def yoffset 0)
 
-(set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second @cells))) 2))
+(set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second glider-gun))) 2))
 
 (defn transform [loc]
   (* loc scale))
 
 (defn draw-cells [ctx cells]
-  (doseq [[x y] @cells]
+  (doseq [[x y] cells]
     (draw-cell ctx (transform (+ x xoffset)) (transform (+ y yoffset)))))
 
 (defn draw-canvas-contents [canvas]
   (let [ctx (.getContext canvas "2d")
         w (.-clientWidth canvas)
         h (.-clientHeight canvas)]
-;;    (set! yoffset (quot (- (quot w scale) (reduce max (map second @cells))) 2))
     (draw-background ctx w h)
-    (draw-cells ctx cells)))
+    (draw-cells ctx @cells)))
 
 (defn div-with-canvas [ ]
   (let [dom-node (reagent/atom nil)]
@@ -88,7 +87,7 @@
 
 (defn on-window-resize [ evt ]
   (reset! window-width (.-innerWidth js/window))
-  (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second @cells))) 2)))
+  (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second glider-gun))) 2)))
 
 (defn ^:export main []
   (rdom/render [home]
