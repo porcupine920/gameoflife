@@ -97,11 +97,13 @@
 
 (defn on-mouse-down [evt]
   (reset! mouse-down? true)
-  (swap! cells #(conj % %2) [(quot (.-offsetY evt) scale) (- (quot (.-offsetX evt) scale) yoffset)]))
+  (swap! cells #(conj % %2) [(- (quot (.-offsetY evt) scale) xoffset) (- (quot (.-offsetX evt) scale) yoffset)])
+  (rdom/render [home] (.getElementById js/document "app")))
 
 (defn on-mouse-move [evt]
   (when @mouse-down?
-    (swap! cells #(conj % %2) [(quot (.-offsetY evt) scale) (- (quot (.-offsetX evt) scale) yoffset)])))
+    (swap! cells #(conj % %2) [(- (quot (.-offsetY evt) scale) xoffset) (- (quot (.-offsetX evt) scale) yoffset)])
+    (rdom/render [home] (.getElementById js/document "app"))))
 
 (defn on-mouse-up [evt]
   (reset! mouse-down? false))
