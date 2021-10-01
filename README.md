@@ -1,10 +1,10 @@
-# gameoflife
+# Game of life
 
-FIXME: Write a one-line description of your library/project.
+A purely frontend version of the Game of Life
 
 ## Overview
 
-FIXME: Write a paragraph about the library/project and highlight its goals.
+A purely frontend implementation of the Game of Life that uses clojurescript and reagant.  
 
 ## Setup
 
