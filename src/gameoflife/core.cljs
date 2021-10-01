@@ -96,7 +96,7 @@
   (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second initial))) 2)))
 
 (defn on-mouse-down [evt]
-  (swap! mouse-down? not)
+  (reset! mouse-down? true)
   (swap! cells #(conj % %2) [(quot (.-offsetY evt) scale) (- (quot (.-offsetX evt) scale) yoffset)]))
 
 (defn on-mouse-move [evt]
@@ -104,7 +104,7 @@
     (swap! cells #(conj % %2) [(quot (.-offsetY evt) scale) (- (quot (.-offsetX evt) scale) yoffset)])))
 
 (defn on-mouse-up [evt]
-  (swap! mouse-down? not))
+  (reset! mouse-down? false))
 
 (defn ^:export main []
   (rdom/render [home]
