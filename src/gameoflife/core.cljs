@@ -15,6 +15,8 @@
 
 (def cells (reagent/atom initial))
 
+(def mouse-down? (reagent/atom false))
+
 ;; define your app data so that it doesn't get over-written on reload
 
 (defn neighbours [[x y]]
@@ -87,16 +89,30 @@
 
 (js/setInterval (fn []
                   (swap! cells #(step %))
-                  (reagent.dom/render [home] (.getElementById js/document "app"))) 300)
+                  (rdom/render [home] (.getElementById js/document "app"))) 300)
 
 (defn on-window-resize [ evt ]
   (reset! window-width (.-innerWidth js/window))
   (set! yoffset (quot (- (quot (.-innerWidth js/window) scale) (reduce max (map second initial))) 2)))
 
+(defn on-mouse-down [evt]
+  (swap! mouse-down? not)
+  (swap! cells #(conj % %2) [(quot (.-offsetY evt) scale) (- (quot (.-offsetX evt) scale) yoffset)]))
+
+(defn on-mouse-move [evt]
+  (when @mouse-down?
+    (swap! cells #(conj % %2) [(quot (.-offsetY evt) scale) (- (quot (.-offsetX evt) scale) yoffset)])))
+
+(defn on-mouse-up [evt]
+  (swap! mouse-down? not))
+
 (defn ^:export main []
   (rdom/render [home]
                (.getElementById js/document "app"))
-  (.addEventListener js/window "resize" on-window-resize))
+  (.addEventListener js/window "resize" on-window-resize)
+  (.addEventListener js/window "mousedown" on-mouse-down)
+  (.addEventListener js/window "mousemove" on-mouse-move)
+  (.addEventListener js/window "mouseup" on-mouse-up))
 
 (defn on-js-reload []
   ;; optionally touch your app-state to force rerendering depending on
