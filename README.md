@@ -5,6 +5,8 @@ A purely frontend version of the Game of Life
 ## Overview
 
 A purely frontend implementation of the Game of Life that uses clojurescript and reagant.  
+![image](https://user-images.githubusercontent.com/4686316/135700597-70433511-e8e3-4e8b-993d-c562699fdb1d.png)
+
 
 ## Setup
 
